@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class ShipMovement : MonoBehaviour
@@ -9,7 +7,7 @@ public class ShipMovement : MonoBehaviour
     [SerializeField] float forwardSpeed;
     [SerializeField] float rotationSpeed;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
