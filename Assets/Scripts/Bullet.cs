@@ -18,11 +18,17 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("trigger");
+        Debug.Log("trigger (bullet)");
+
+        if (collision.GetComponent<Asteroid>() != null)
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("collision");
+        Debug.Log("collision (bullet)");
     }
 }
