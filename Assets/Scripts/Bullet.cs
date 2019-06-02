@@ -5,10 +5,12 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody2D rb;
     float bulletSpeed = 2f;
+    float bulletLifespan = 3f;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        Destroy(gameObject, bulletLifespan);
     }
 
     public void Launch(Vector2 baseVelocity)
