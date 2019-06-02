@@ -19,6 +19,11 @@ public class Asteroid : MonoBehaviour
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
+        else if (collision.GetComponent<Ship>() != null)
+        {
+            //Destroy(collision.gameObject);
+            collision.GetComponent<Ship>().Destroy();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
