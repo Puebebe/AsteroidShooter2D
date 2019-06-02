@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
@@ -14,5 +14,15 @@ public class Bullet : MonoBehaviour
     public void Launch(Vector2 baseVelocity)
     {
         rb.velocity = baseVelocity + (Vector2)transform.up * bulletSpeed;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("trigger");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("collision");
     }
 }
