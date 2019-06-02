@@ -25,6 +25,6 @@ public class Weapon : MonoBehaviour
     void FireWeapon()
     {
         nextFireTime += fireRefreshRate;
-        launcher.Launch(this);
+        launcher.Launch();
     }
 }
