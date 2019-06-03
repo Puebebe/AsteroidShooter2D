@@ -9,8 +9,6 @@ public class Asteroid : MonoBehaviour
         if (doNothing)
             return;
 
-        Debug.Log("trigger (asteroid)");
-
         Asteroid other = collision.GetComponent<Asteroid>();
 
         if (other != null)
