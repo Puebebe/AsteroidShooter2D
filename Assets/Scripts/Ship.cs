@@ -2,9 +2,11 @@
 
 public class Ship : MonoBehaviour
 {
+    [SerializeField] GameState gameState;
+
     public void Destroy()
     {
-        transform.DetachChildren();
+        gameState.EndGame();
         Destroy(gameObject);
     }
 }
