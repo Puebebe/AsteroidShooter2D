@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
 
         if (collision.GetComponent<Asteroid>() != null)
         {
+            GameState.Score++;
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
