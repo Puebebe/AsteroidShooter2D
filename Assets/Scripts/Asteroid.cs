@@ -19,7 +19,9 @@ public class Asteroid : MonoBehaviour
         }
         else if (collision.GetComponent<Ship>() != null)
         {
-            //Destroy(collision.gameObject);
+            if ((Vector2)collision.transform.position == Vector2.zero)
+                Destroy(gameObject);
+
             collision.GetComponent<Ship>().Destroy();
         }
     }
