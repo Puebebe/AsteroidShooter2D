@@ -7,14 +7,16 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] GameObject asteroidPrefab;
     [SerializeField] int gridSize;
     [SerializeField] Camera cam;
+    Vector2 camPos;
+    float xView, yView;
 
     void Start()
     {
         StartCoroutine(StartSmoothly());
 
-        Vector2 camPos = cam.transform.position;
-        float xView = cam.orthographicSize * cam.aspect;
-        float yView = cam.orthographicSize;
+        camPos = cam.transform.position;
+        xView = cam.orthographicSize * cam.aspect;
+        yView = cam.orthographicSize;
 
         for (int x = -gridSize / 2 ; x < gridSize / 2; x++)
         {
@@ -27,6 +29,23 @@ public class AsteroidSpawner : MonoBehaviour
                 asteroid.GetComponent<Rigidbody2D>().velocity = Random.insideUnitCircle;
             }
         }
+    }
+
+    public IEnumerator RespawnAsteroidAfterOneSecond()
+    {
+        yield return new WaitForSeconds(1);
+
+        int x, y;
+        camPos = cam.transform.position;
+
+        do
+        {
+            x = Random.Range((int)camPos.x - gridSize / 2, (int)camPos.x + gridSize / 2);
+            y = Random.Range((int)camPos.y - gridSize / 2, (int)camPos.y + gridSize / 2);
+        } while (x + 0.5f < camPos.x + xView && x + 0.5f > camPos.x - xView && y + 0.5f < camPos.y + yView && y + 0.5f > camPos.y - yView);
+
+        GameObject asteroid = Instantiate(asteroidPrefab, new Vector2(x + 0.5f, y + 0.5f), Quaternion.identity);
+        asteroid.GetComponent<Rigidbody2D>().velocity = Random.insideUnitCircle;
     }
 
     IEnumerator StartSmoothly()

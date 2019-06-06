@@ -13,6 +13,10 @@ public class Asteroid : MonoBehaviour
 
         if (other != null)
         {
+            AsteroidSpawner ass = FindObjectOfType<AsteroidSpawner>();
+            ass.StartCoroutine(ass.RespawnAsteroidAfterOneSecond());
+            ass.StartCoroutine(ass.RespawnAsteroidAfterOneSecond());
+
             other.doNothing = true;
             Destroy(collision.gameObject);
             Destroy(gameObject);
