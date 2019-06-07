@@ -3,9 +3,9 @@
 [RequireComponent(typeof(Rigidbody2D))]
 public class ShipMovement : MonoBehaviour
 {
-    Rigidbody2D rb;
     [SerializeField] float forwardSpeed;
     [SerializeField] float rotationSpeed;
+    Rigidbody2D rb;
 
     void Awake()
     {

@@ -2,7 +2,7 @@
 
 public class CameraController : MonoBehaviour
 {
-    public Transform ship;
+    [SerializeField] Transform ship;
     Vector3 offsetPosition;
 
     void Start()

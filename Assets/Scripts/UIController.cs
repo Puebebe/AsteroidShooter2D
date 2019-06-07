@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
         GameState.GameEnded += lossUI.SetActive;
         GameState.GameEnded += restartButton.SetActive;
         GameState.OnScoreChanged += UpdateScore;
+        restartButton.GetComponent<Button>().onClick.AddListener(GameState.StartGame);
     }
 
     public void UpdateScore(int newScore)

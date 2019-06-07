@@ -2,8 +2,6 @@
 
 public class Ship : MonoBehaviour
 {
-    [SerializeField] GameState gameState;
-
     void Start()
     {
         GameState.GameEnded += Reset;
@@ -11,7 +9,7 @@ public class Ship : MonoBehaviour
 
     public void Destroy()
     {
-        gameState.EndGame();
+        GameState.EndGame();
     }
 
     void Reset(bool toDestroy)

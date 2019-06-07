@@ -29,9 +29,4 @@ public class Asteroid : MonoBehaviour
             collision.GetComponent<Ship>().Destroy();
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("collision (asteroid)");
-    }
 }
