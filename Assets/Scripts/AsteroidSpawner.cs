@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class AsteroidSpawner : MonoBehaviour
 {
@@ -17,12 +16,13 @@ public class AsteroidSpawner : MonoBehaviour
         camPos = cam.transform.position;
         xView = cam.orthographicSize * cam.aspect;
         yView = cam.orthographicSize;
+        cam.rect = new Rect(-xView, -yView, xView * 2, yView * 2);
 
         for (int x = -gridSize / 2 ; x < gridSize / 2; x++)
         {
             for (int y = -gridSize / 2; y < gridSize / 2; y++)
             {
-                if (x + 0.5f < camPos.x + xView && x + 0.5f > camPos.x - xView && y + 0.5f < camPos.y + yView && y + 0.5f > camPos.y - yView)
+                if (cam.rect.Contains(new Vector2(x + 0.5f, y + 0.5f).Rotate(cam.transform.rotation)))
                     continue;
                 
                 GameObject asteroid = Instantiate(asteroidPrefab, new Vector2(x + 0.5f, y + 0.5f), Quaternion.identity);
