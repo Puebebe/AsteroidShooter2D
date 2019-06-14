@@ -18,13 +18,10 @@ public class Bullet : MonoBehaviour
         rb.velocity = baseVelocity + (Vector2)transform.up * bulletSpeed;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Asteroid>() != null)
-        {
-            GameState.Score++;
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
-        }
+        GameState.Score++;
+        AsteroidSpawner.Instance.StartCoroutine(AsteroidSpawner.RespawnAsteroidAfterOneSecond(collision.gameObject));
+        Destroy(gameObject);
     }
 }

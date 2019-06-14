@@ -1,50 +1,77 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AsteroidSpawner : MonoBehaviour
 {
+    public static AsteroidSpawner Instance { get; private set; }
+
     [SerializeField] GameObject asteroidPrefab;
     [SerializeField] int gridSize;
-    [SerializeField] Camera cam;
-    Vector2 camPos;
-    float xView, yView;
+    static int spawnRange;
+    List<GameObject> asteroids;
+    Collider2D[] results = new Collider2D[2];
+    const int ASTEROIDS_LAYER = 1 << 8;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
 
     void Start()
     {
-        StartCoroutine(StartSmoothly());
+        //StartCoroutine(StartSmoothly());
+        asteroids = new List<GameObject>();
+        spawnRange = gridSize / 2;
 
-        camPos = cam.transform.position;
-        xView = cam.orthographicSize * cam.aspect;
-        yView = cam.orthographicSize;
-        cam.rect = new Rect(-xView, -yView, xView * 2, yView * 2);
-
-        for (int x = -gridSize / 2 ; x < gridSize / 2; x++)
+        for (int x = -spawnRange ; x < spawnRange; x++)
         {
-            for (int y = -gridSize / 2; y < gridSize / 2; y++)
+            for (int y = -spawnRange; y < spawnRange; y++)
             {
-                if (cam.rect.Contains(new Vector2(x + 0.5f, y + 0.5f).Rotate(cam.transform.rotation)))
+                if (CameraController.view.Contains(new Vector2(x + 0.5f, y + 0.5f).Rotate(CameraController.cam.transform.rotation)))
                     continue;
-                
+
                 GameObject asteroid = Instantiate(asteroidPrefab, new Vector2(x + 0.5f, y + 0.5f), Quaternion.identity);
                 asteroid.GetComponent<Rigidbody2D>().velocity = Random.insideUnitCircle;
+                asteroids.Add(asteroid);
             }
         }
     }
 
-    public IEnumerator RespawnAsteroidAfterOneSecond()
+    void FixedUpdate()
     {
+        foreach (var a in asteroids)
+        {
+            if (!a.activeSelf)
+                continue;
+            
+            if (Physics2D.OverlapCircleNonAlloc(a.transform.position, 0.2f, results, ASTEROIDS_LAYER) > 1)
+            {
+                StartCoroutine(RespawnAsteroidAfterOneSecond(results[0].gameObject));
+                StartCoroutine(RespawnAsteroidAfterOneSecond(results[1].gameObject));
+            }
+        }
+    }
+
+    public static IEnumerator RespawnAsteroidAfterOneSecond(GameObject asteroid)
+    {
+        asteroid.SetActive(false);
         yield return new WaitForSeconds(1);
 
         int x, y;
-        camPos = cam.transform.position;
+        Vector2 camShift = new Vector2((int)CameraController.cam.transform.position.x, (int)CameraController.cam.transform.position.y);
 
         do
         {
-            x = Random.Range((int)camPos.x - gridSize / 2, (int)camPos.x + gridSize / 2);
-            y = Random.Range((int)camPos.y - gridSize / 2, (int)camPos.y + gridSize / 2);
-        } while (x + 0.5f < camPos.x + xView && x + 0.5f > camPos.x - xView && y + 0.5f < camPos.y + yView && y + 0.5f > camPos.y - yView);
+            x = Random.Range(-spawnRange, spawnRange);
+            y = Random.Range(-spawnRange, spawnRange);
+        } while (CameraController.view.Contains(new Vector2(x + 0.5f, y + 0.5f).Rotate(CameraController.cam.transform.rotation) + camShift));
 
-        GameObject asteroid = Instantiate(asteroidPrefab, new Vector2(x + 0.5f, y + 0.5f), Quaternion.identity);
+        asteroid.transform.position = new Vector2(x + 0.5f, y + 0.5f) + camShift;
+        asteroid.SetActive(true);
         asteroid.GetComponent<Rigidbody2D>().velocity = Random.insideUnitCircle;
     }
 

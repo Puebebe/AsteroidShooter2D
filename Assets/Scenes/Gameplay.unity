@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 553127532}
   - component: {fileID: 553127533}
   - component: {fileID: 553127534}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -965,8 +965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 1735208243871073331, guid: 65b413ba265dbc94c8a9b45ba0114fa1,
     type: 3}
-  gridSize: 16
-  cam: {fileID: 519420031}
+  gridSize: 60
 --- !u!114 &1880424391
 MonoBehaviour:
   m_ObjectHideFlags: 0

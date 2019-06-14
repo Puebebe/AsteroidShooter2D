@@ -7,11 +7,6 @@ public class Ship : MonoBehaviour
         GameState.GameEnded += Reset;
     }
 
-    public void Destroy()
-    {
-        GameState.EndGame();
-    }
-
     void Reset(bool toDestroy)
     {
         gameObject.SetActive(!toDestroy);
@@ -21,5 +16,13 @@ public class Ship : MonoBehaviour
             transform.position = Vector2.zero;
             transform.rotation = Quaternion.identity;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((Vector2)transform.position == Vector2.zero)
+            AsteroidSpawner.Instance.StartCoroutine(AsteroidSpawner.RespawnAsteroidAfterOneSecond(collision.gameObject));
+
+        GameState.EndGame();
     }
 }
