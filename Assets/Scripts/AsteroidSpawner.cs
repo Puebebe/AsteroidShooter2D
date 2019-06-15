@@ -47,11 +47,14 @@ public class AsteroidSpawner : MonoBehaviour
         {
             if (!a.activeSelf)
                 continue;
-            
-            if (Physics2D.OverlapCircleNonAlloc(a.transform.position, 0.2f, results, ASTEROIDS_LAYER) > 1)
+
+            if (a.GetComponent<Collider2D>().IsTouchingLayers(ASTEROIDS_LAYER))
             {
-                StartCoroutine(RespawnAsteroidAfterOneSecond(results[0].gameObject));
-                StartCoroutine(RespawnAsteroidAfterOneSecond(results[1].gameObject));
+                if (Physics2D.OverlapCircleNonAlloc(a.transform.position, 0.2f, results, ASTEROIDS_LAYER) > 1)
+                {
+                    StartCoroutine(RespawnAsteroidAfterOneSecond(results[0].gameObject));
+                    StartCoroutine(RespawnAsteroidAfterOneSecond(results[1].gameObject));
+                }
             }
         }
     }

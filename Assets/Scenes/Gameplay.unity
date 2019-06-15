@@ -965,7 +965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 1735208243871073331, guid: 65b413ba265dbc94c8a9b45ba0114fa1,
     type: 3}
-  gridSize: 60
+  gridSize: 70
 --- !u!114 &1880424391
 MonoBehaviour:
   m_ObjectHideFlags: 0
